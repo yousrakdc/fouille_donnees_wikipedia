@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.env
+corpus.json
+corpus_propre.json
+resultats/
