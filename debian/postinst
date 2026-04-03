@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+INSTALL_DIR="/opt/wikicluster"
+VENV_DIR="$INSTALL_DIR/venv"
+echo "Installation de WikiCluster v1.0.0..."
+python3 -m venv "$VENV_DIR"
+"$VENV_DIR/bin/pip" install --upgrade pip -q
+"$VENV_DIR/bin/pip" install -r "$INSTALL_DIR/requirements.txt" -q
+"$VENV_DIR/bin/python" -m spacy download fr_core_news_sm -q
+chmod +x /usr/local/bin/wikicluster
+echo "Installation terminée ! Lancez avec : wikicluster"

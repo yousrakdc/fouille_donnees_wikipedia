@@ -1,51 +1,116 @@
-# Fouille de Données Wikipedia : Science & Technologie
+# WikiCluster
+
+**Clustering thématique non supervisé d'articles scientifiques Wikipedia**
+
+Projet réalisé dans le cadre de la L3 Informatique — Université Paris 8 Vincennes  
+Cours : Fouille de données, Ingénierie des langues, Développement de logiciel libre
 
 ## Description
 
-Ce projet explore la fouille de données sur des articles Wikipedia en français, autour de cinq grands thèmes scientifiques : **intelligence artificielle**, **informatique**, **physique**, **biologie** et **espace**. Il applique un pipeline complet : collecte, prétraitement, vectorisation, clustering et évaluation.
+WikiCluster est une application interactive qui collecte, prétraite, vectorise et regroupe automatiquement des articles encyclopédiques Wikipedia en français. L'objectif est de déterminer, sans supervision, quelle méthode de clustering regroupe le mieux les articles selon leur thème scientifique.
+
+### Corpus
+- 50 articles Wikipedia en français
+- 5 thèmes : Intelligence artificielle, Informatique, Physique, Biologie, Espace
+- 10 articles par thème, tronqués aux 3 000 premiers caractères
+
+### Méthodes comparées
+| Méthode | Vectorisation | Algorithme |
+|---------|--------------|------------|
+| 1 | TF-IDF (500 features) | K-Means (k=5) |
+| 2 | Word2Vec (dim=100) | K-Means (k=5) |
+| 3 | TF-IDF (500 features) | SOM (grille 5×5) |
+
+### Évaluation
+- **Silhouette Score** : cohérence géométrique interne des clusters
+- **Adjusted Rand Index (ARI)** : comparaison avec les thèmes réels (gold standard Wikipedia)
+
+## Installation
+
+### Prérequis
+- Python >= 3.9
+- pip
+
+### Installation rapide
+
+```bash
+# Cloner le dépôt
+git clone https://github.com/yousrakerdouchi/wikicluster.git
+cd wikicluster
+
+# Installer les dépendances
+pip install -r requirements.txt
+
+# Télécharger le modèle spaCy français
+python -m spacy download fr_core_news_sm
+```
+
+### Installation via le paquet .deb (Debian/Ubuntu)
+
+```bash
+sudo dpkg -i wikicluster_1.0.0_all.deb
+sudo apt-get install -f  # résoudre les dépendances si nécessaire
+```
+
+## Utilisation
+
+### Lancer l'application
+
+```bash
+streamlit run app.py
+```
+
+L'application s'ouvre dans votre navigateur à l'adresse `http://localhost:8501`.
+
+### Pipeline
+
+1. **Collecte** : collecte des articles via l'API Wikipedia (ou chargement d'un fichier JSON existant)
+2. **Prétraitement** : nettoyage, lemmatisation et suppression des mots vides avec spaCy
+3. **Vectorisation** : calcul des matrices TF-IDF et Word2Vec
+4. **Clustering** : K-Means et SOM avec visualisation PCA 2D
+5. **Évaluation** : Silhouette Score et Adjusted Rand Index, graphiques comparatifs
+
+### Paramètres configurables (sidebar)
+
+- Nombre de caractères par article (1000–5000)
+- Nombre de features TF-IDF (100–1000)
+- Dimensions Word2Vec (50–300)
+- Fenêtre de contexte Word2Vec (2–10)
+- Nombre de clusters (2–10)
+- Taille de la grille SOM (3–10)
+- Nombre d'itérations SOM (100–2000)
 
 ## Structure du projet
 
-- **collecte.py** : Récupère les articles Wikipedia selon des sous-thèmes définis, en utilisant l’API Wikipedia. Les articles sont stockés dans `corpus.json`.
-- **pretraitement.py** : Nettoie les textes, lemmatise avec spaCy, filtre les tokens, et génère un corpus propre (`corpus_propre.json`).
-- **vectorisation.py** : Vectorise les textes avec TF-IDF et Word2Vec, sauvegarde les matrices (`matrice_tfidf.npy`, `matrice_w2v.npy`) et le modèle Word2Vec (`modele_w2v.model`).
-- **clustering.py** : Applique des méthodes de clustering (K-Means, SOM) sur les matrices, réduit la dimension avec PCA, génère des labels (`labels_tfidf.npy`, `labels_w2v.npy`, `labels_som.npy`) et des visualisations (dans `resultats/`).
-- **evaluation.py** : Évalue la qualité des clusters avec des métriques (Silhouette Score, Adjusted Rand Index), compare les méthodes, affiche les résultats.
+```
+wikicluster/
+├── app.py                  # Application Streamlit principale
+├── requirements.txt        # Dépendances Python
+├── setup.py               # Configuration du paquet
+├── LICENSE                # Licence GPL-3.0
+├── README.md              # Ce fichier
+└── data/                  # Données (corpus, matrices, résultats)
+```
 
-## Fichiers de données
+## Dépendances
 
-- **corpus.json** : Articles bruts collectés.
-- **corpus_propre.json** : Corpus nettoyé et lemmatisé.
-- **meta.json** : Métadonnées (titres, thèmes).
-- **matrice_tfidf.npy** / **matrice_w2v.npy** : Matrices de vecteurs.
-- **modele_w2v.model** : Modèle Word2Vec entraîné.
+| Bibliothèque | Usage |
+|--------------|-------|
+| streamlit | Interface web interactive |
+| wikipedia-api | Collecte des articles Wikipedia |
+| spacy | Lemmatisation et traitement linguistique |
+| scikit-learn | TF-IDF, K-Means, PCA, métriques d'évaluation |
+| gensim | Word2Vec |
+| minisom | Self-Organizing Maps |
+| matplotlib | Visualisations |
+| numpy / pandas | Manipulation de données |
 
-## Dossier `resultats/`
+## Auteur
 
-- **labels_tfidf.npy**, **labels_w2v.npy**, **labels_som.npy** : Labels de clustering.
-- **kmeans_tfidf.png**, **kmeans_w2v.png**, **som_tfidf.png**, **comparaison_methodes.png** : Visualisations des clusters.
+**Yousra Kerdouchi**  
+L3 Informatique — Université Paris 8  
+ID : 82507301
 
-## Prérequis
+## Licence
 
-- Python 3.11+
-- Packages : `wikipedia-api`, `spacy`, `scikit-learn`, `gensim`, `matplotlib`, `minisom`, etc.
-- Modèle spaCy français : `fr_core_news_sm`
-
-## Pipeline d’exécution
-
-1. **Collecte** : `python collecte.py`
-2. **Prétraitement** : `python pretraitement.py`
-3. **Vectorisation** : `python vectorisation.py`
-4. **Clustering** : `python clustering.py`
-5. **Évaluation** : `python evaluation.py`
-
-## Résultats
-
-- Analyse comparative des méthodes de clustering sur des articles scientifiques.
-- Visualisation des clusters par thème.
-- Évaluation quantitative (cohérence, pertinence).
-
-## Contact
-
-Projet réalisé par Yousra Kerdouchi.  
-Date : Mars 2026.
+Ce logiciel est distribué sous licence [GPL-3.0](LICENSE).

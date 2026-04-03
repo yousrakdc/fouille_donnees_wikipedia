@@ -1,0 +1,13 @@
+Package: wikicluster
+Version: 1.0.0
+Section: science
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.9), python3-pip, python3-venv
+Maintainer: Yousra Kerdouchi <yousra.kerdouchi@example.com>
+Description: Clustering thématique d'articles scientifiques Wikipedia
+ WikiCluster est une application interactive de fouille de données
+ qui collecte, prétraite, vectorise et regroupe automatiquement
+ des articles encyclopédiques Wikipedia en français.
+Homepage: https://github.com/yousrakerdouchi/wikicluster
+License: GPL-3.0

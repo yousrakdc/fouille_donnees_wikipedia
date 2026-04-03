@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+echo "Suppression de WikiCluster..."
+[ -d "/opt/wikicluster/venv" ] && rm -rf /opt/wikicluster/venv
+echo "WikiCluster désinstallé."
