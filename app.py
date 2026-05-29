@@ -343,7 +343,7 @@ def calculer_scores(matrice, labels_dict, themes):
 # Sidebar
 # ========================================================================
 with st.sidebar:
-    st.markdown("## ⚙️ Configuration")
+    st.markdown("## Configuration")
     st.markdown("---")
     
     st.markdown("### Collecte")
@@ -391,10 +391,10 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 ])
 
 # ========================================================================
-# TAB 1 — Collecte
+# TAB 1 - Collecte
 # ========================================================================
 with tab1:
-    st.markdown('<div class="step-header">Étape 1 — Collecte du corpus Wikipedia</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">Étape 1 - Collecte du corpus Wikipedia</div>', unsafe_allow_html=True)
     
     st.markdown(f"""
     <div class="info-box">
@@ -426,7 +426,7 @@ with tab1:
     col_btn1, col_btn2 = st.columns(2)
     
     with col_btn1:
-        if st.button("🚀 Lancer la collecte", type="primary", use_container_width=True):
+        if st.button("Lancer la collecte", type="primary", use_container_width=True):
             progress = st.progress(0)
             status = st.empty()
             
@@ -468,7 +468,7 @@ with tab1:
         # Téléchargement
         json_str = json.dumps(corpus, ensure_ascii=False, indent=2)
         st.download_button(
-            "💾 Télécharger corpus.json",
+            "Télécharger corpus.json",
             json_str,
             "corpus.json",
             "application/json"
@@ -476,10 +476,10 @@ with tab1:
 
 
 # ========================================================================
-# TAB 2 — Prétraitement
+# TAB 2 - Prétraitement
 # ========================================================================
 with tab2:
-    st.markdown('<div class="step-header">Étape 2 — Prétraitement linguistique</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">Étape 2 - Prétraitement linguistique</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
@@ -493,7 +493,7 @@ with tab2:
     if 'corpus' not in st.session_state:
         st.warning("⚠️ Veuillez d'abord collecter ou charger un corpus dans l'onglet Collecte.")
     else:
-        if st.button("🧹 Lancer le prétraitement", type="primary", use_container_width=True):
+        if st.button("Lancer le prétraitement", type="primary", use_container_width=True):
             progress = st.progress(0)
             status = st.empty()
             
@@ -556,10 +556,10 @@ with tab2:
 
 
 # ========================================================================
-# TAB 3 — Vectorisation
+# TAB 3 - Vectorisation
 # ========================================================================
 with tab3:
-    st.markdown('<div class="step-header">Étape 3 — Vectorisation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">Étape 3 - Vectorisation</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
@@ -630,10 +630,10 @@ with tab3:
 
 
 # ========================================================================
-# TAB 4 — Clustering
+# TAB 4 - Clustering
 # ========================================================================
 with tab4:
-    st.markdown('<div class="step-header">Étape 4 — Clustering</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">Étape 4 - Clustering</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
@@ -647,7 +647,7 @@ with tab4:
     if 'matrice_tfidf' not in st.session_state:
         st.warning("⚠️ Veuillez d'abord effectuer la vectorisation dans l'onglet précédent.")
     else:
-        if st.button("🔬 Lancer le clustering", type="primary", use_container_width=True):
+        if st.button("Lancer le clustering", type="primary", use_container_width=True):
             matrice_tfidf = st.session_state['matrice_tfidf']
             matrice_w2v = st.session_state['matrice_w2v']
             corpus_propre = st.session_state['corpus_propre']
@@ -730,9 +730,9 @@ with tab4:
                     if themes_cluster:
                         theme_dominant = max(set(themes_cluster), key=themes_cluster.count)
                     else:
-                        theme_dominant = "—"
+                        theme_dominant = "-"
                     
-                    with st.expander(f"Cluster {cluster_id} ({len(articles_cluster)} articles) — {theme_dominant}"):
+                    with st.expander(f"Cluster {cluster_id} ({len(articles_cluster)} articles) - {theme_dominant}"):
                         for titre in articles_cluster:
                             idx = titres.index(titre)
                             theme_reel = themes[idx]
@@ -741,10 +741,10 @@ with tab4:
 
 
 # ========================================================================
-# TAB 5 — Évaluation
+# TAB 5 - Évaluation
 # ========================================================================
 with tab5:
-    st.markdown('<div class="step-header">Étape 5 — Évaluation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step-header">Étape 5 - Évaluation</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="info-box">
@@ -834,7 +834,7 @@ with tab5:
         """)
         
         # Analyse détaillée des articles mal classés
-        st.markdown("### Analyse détaillée — Articles mal classés (K-Means TF-IDF)")
+        st.markdown("### Analyse détaillée - Articles mal classés (K-Means TF-IDF)")
         
         labels_tfidf = st.session_state['labels_tfidf']
         titres = st.session_state['titres']
@@ -848,7 +848,7 @@ with tab5:
                 mal_classes = [titres[i] for i in indices if themes[i] != theme_dominant]
                 
                 if mal_classes:
-                    st.markdown(f"**Cluster {cluster_id}** — thème dominant : *{theme_dominant}*")
+                    st.markdown(f"**Cluster {cluster_id}** - thème dominant : *{theme_dominant}*")
                     st.markdown(f"   Articles hors thème : {', '.join(mal_classes)}")
                 else:
-                    st.markdown(f"**Cluster {cluster_id}** — thème dominant : *{theme_dominant}* ✅ Parfaitement homogène")
+                    st.markdown(f"**Cluster {cluster_id}** - thème dominant : *{theme_dominant}* Parfaitement homogène")
