@@ -199,7 +199,7 @@ def collecter_articles(progress_bar, status_text):
                 status_text.text(f"✗ Introuvable : {titre}")
             count += 1
             progress_bar.progress(count / total)
-            time.sleep(0.3)
+            time.sleep(0.5)
     
     return corpus, articles_non_trouves
 

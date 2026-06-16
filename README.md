@@ -35,7 +35,7 @@ WikiCluster est une application interactive qui collecte, prétraite, vectorise 
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/yousrakerdouchi/wikicluster.git
+git clone https://github.com/yousrakerdouchi/fouille_donnees_wikipedia.git
 cd wikicluster
 
 # Installer les dépendances
