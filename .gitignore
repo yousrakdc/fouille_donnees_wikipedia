@@ -3,4 +3,4 @@ __pycache__/
 .env
 corpus.json
 corpus_propre.json
-resultats/
+resultats/venv/
